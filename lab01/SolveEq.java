@@ -7,7 +7,7 @@ public class SolveEq {
 		
 		System.out.println("How many equations?");
 		int NumEq =  sc.nextInt();
-		int deg = 2;
+		int deg = 1;
 		
 		if (NumEq == 1) {
 			System.out.println("How many degrees?");
@@ -45,7 +45,9 @@ public class SolveEq {
 				int det2 = c1*a2 - c2*a1;
 				
 				if (det != 0) {
-					System.out.printf("The only solution is x = %f and y = %f ", (det1/det), det2/det);
+					double x = det1/det;
+					double y = det2/det;
+					System.out.printf("The only solution is x = %f and y = %f ", x, y);
 					
 				} else {
 					if (det1 == 0) {
@@ -54,28 +56,32 @@ public class SolveEq {
 						System.out.printf("No solution");
 					}
 				}
+			} else {
+				System.out.println("Enter a: ");
+				int a = sc.nextInt();
+				System.out.println("Enter b: ");
+				int b = sc.nextInt();
+				System.out.println("Enter c: ");
+				int c = sc.nextInt();
+				
+				int delta = b*b - 4*a*c;
+				if (delta > 0) {
+					System.out.printf("2 solution is x1 = %f and x2 = %f ", 
+							((-b - Math.sqrt(delta))/ (2*a)), ((-b + Math.sqrt(delta))/ (2*a)));
+				}
+				else {
+					if (delta == 0) {
+						double res = -b/ (2*a);
+						System.out.printf("The duplicated solution is x = %f ", res);
+					} 
+					else {
+						System.out.printf("No solution!");
+					}
+				}
+				
 			}
 		}
-		System.out.println("Enter a: ");
-		int a = sc.nextInt();
-		System.out.println("Enter b: ");
-		int b = sc.nextInt();
-		System.out.println("Enter c: ");
-		int c = sc.nextInt();
 		
-		int delta = b*b - 4*a*c;
-		if (delta > 0) {
-			System.out.printf("2 solution is x1 = %f and x2 = %f ", 
-					((-b - Math.sqrt(delta))/ (2*a)), ((-b + Math.sqrt(delta))/ (2*a)));
-		}
-		else {
-			if (delta = 0) {
-				System.out.printf("The duplicated solution is x = %f ", (-b/ (2*a)));
-			} 
-			else {
-				System.out.printf("No solution!");
-			}
-		}
 		
 	}
 
