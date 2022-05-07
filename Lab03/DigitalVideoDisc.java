@@ -3,7 +3,7 @@ public class DigitalVideoDisc {
 	private String category;
 	private String director;
 	private int length;
-	private int cost;
+	private float cost;
 	
 	public DigitalVideoDisc(String title) {
 		super(); //Actually it can be omitted in this block.
@@ -11,7 +11,7 @@ public class DigitalVideoDisc {
 	}
 	
 	
-	public DigitalVideoDisc(String title, String category, int cost) {
+	public DigitalVideoDisc(String title, String category, float cost) {
 		super();
 		this.title = title;
 		this.category = category;
@@ -19,7 +19,7 @@ public class DigitalVideoDisc {
 	}
 
 
-	public DigitalVideoDisc(String title, String category, String director, int cost) {
+	public DigitalVideoDisc(String title, String category, String director, float cost) {
 		super();
 		this.title = title;
 		this.category = category;
@@ -28,7 +28,7 @@ public class DigitalVideoDisc {
 	}
 
 	
-	public DigitalVideoDisc(String title, String category, String director, int length, int cost) {
+	public DigitalVideoDisc(String title, String category, String director, int length, float cost) {
 		super();
 		this.title = title;
 		this.category = category;
@@ -50,7 +50,7 @@ public class DigitalVideoDisc {
 	public int getLength() {
 		return length;
 	}
-	public int getCost() {
+	public float getCost() {
 		return cost;
 	}
 
