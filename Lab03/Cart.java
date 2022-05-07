@@ -9,8 +9,8 @@ public class Cart {
 		if (qtyOrdered == MAX_NUMBERS_ORDERED) {
 			System.out.println("This cart is almost full");
 		} else {
-			qtyOrdered  ++;
 			itemsOrdered[qtyOrdered] = disc;
+			qtyOrdered ++;
 			System.out.println("This disc has been added");
 			sumCost += disc.getCost(); // plus the cost of the new added item
 		}
