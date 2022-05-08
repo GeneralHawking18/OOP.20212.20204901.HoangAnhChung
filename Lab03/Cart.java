@@ -18,10 +18,14 @@ public class Cart {
 
 	public int removeDigitalVideoDisc(DigitalVideoDisc disc) {
 		int qtyOrderedBackup = qtyOrdered;
-		DigitalVideoDisc[] Temp_itemsOrdered = itemsOrdered;
-		
+		DigitalVideoDisc[] Temp_itemsOrdered = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+
 		for (int i = 0; i < qtyOrderedBackup; i++) {
-			if (itemsOrdered[i].getTitle() == disc.getTitle()) {
+			Temp_itemsOrdered[i] = itemsOrdered[i]; // Clone itemsOrdered array
+		}
+			
+		for (int i = 0; i < qtyOrderedBackup; i++) {
+			if (itemsOrdered[i] != null && itemsOrdered[i].getTitle() == disc.getTitle()) {
 				totalCost -= itemsOrdered[i].getCost(); // subtract the cost of the removed item
 				Temp_itemsOrdered[i] = null;
 				qtyOrdered --;
@@ -29,8 +33,8 @@ public class Cart {
 			}
 			itemsOrdered[i] = null; // be empty all slots in itemsOrdered
 		}
+
 		int j = 0;
-		
 		for (int i = 0; i < MAX_NUMBERS_ORDERED; i++) {
 			if (Temp_itemsOrdered[i] != null) {
 				itemsOrdered[j] = Temp_itemsOrdered[i]; // Refill the undeleted items
@@ -39,7 +43,6 @@ public class Cart {
 		}
 		
 		return qtyOrdered - qtyOrderedBackup;
-	}
 	
 	public float TotalCost() {
 		return totalCost;
