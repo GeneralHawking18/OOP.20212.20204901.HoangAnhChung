@@ -3,7 +3,7 @@ public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
 	private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
 	private int qtyOrdered = 0;
-	private float sumCost = 0;
+	private float totalCost = 0;
 	
 	public void addDigitalVideoDisc(DigitalVideoDisc disc) {
 		if (qtyOrdered == MAX_NUMBERS_ORDERED) {
@@ -18,7 +18,7 @@ public class Cart {
 	
 	
 	public float TotalCost() {
-		return sumCost;
+		return totalCost;
 	}
 	
 	
