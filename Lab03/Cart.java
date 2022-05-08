@@ -45,6 +45,31 @@ public class Cart {
 		return qtyOrdered - qtyOrderedBackup;
 	}
 	
+	public void addDigitalVideoDisc(DigitalVideoDisc[] dvdlist) {
+		for (int i = 0; i < dvdlist.length; i++) {
+			addDigitalVideoDisc(dvdlist[i]);
+			if (qtyOrdered == MAX_NUMBERS_ORDERED) {
+				addDigitalVideoDisc(dvdlist[i]); // Just print the message 'Full'
+				break;
+			}
+		}	
+	}
+	
+	public void addDigitalVideoDisc(DigitalVideoDisc disc, int amount) {
+		for (int i = 0; i < amount; i++) {
+			addDigitalVideoDisc(disc);
+			if (qtyOrdered == MAX_NUMBERS_ORDERED) {
+				addDigitalVideoDisc(disc); // Just print the message 'Full'
+				break;
+			}
+		}
+	}
+	
+	public void addDigitalVideoDisc(DigitalVideoDisc disc1, DigitalVideoDisc disc2) {
+		DigitalVideoDisc[] temp = {disc1, disc2};
+		addDigitalVideoDisc(temp);
+	}
+	
 	public float TotalCost() {
 		return totalCost;
 	}
