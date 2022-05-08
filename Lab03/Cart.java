@@ -43,6 +43,7 @@ public class Cart {
 		}
 		
 		return qtyOrdered - qtyOrderedBackup;
+	}
 	
 	public float TotalCost() {
 		return totalCost;
