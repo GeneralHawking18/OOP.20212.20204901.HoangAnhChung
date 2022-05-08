@@ -32,9 +32,6 @@ public class Cart {
 			if (qtyOrdered == MAX_NUMBERS_ORDERED) {
 				addDigitalVideoDisc(disc); // Just print the message 'Full'
 				break;
-			}
-		}
-	}
 	
 	public float TotalCost() {
 		return totalCost;
