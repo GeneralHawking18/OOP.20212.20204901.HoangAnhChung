@@ -16,7 +16,8 @@ public class Cart {
 		}
 	}
 	
-	public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
+	public int removeDigitalVideoDisc(DigitalVideoDisc disc) {
+		int qtyOrderedBackup = qtyOrdered;
 		for (int i = 0; i < qtyOrdered; i++) {
 			if (itemsOrdered[i].getTitle() == disc.getTitle()) {
 				totalCost -= itemsOrdered[i].getCost(); // subtract the cost of the removed item
@@ -32,6 +33,7 @@ public class Cart {
 				}
 			}
 		}
+		return qtyOrderedBackup - qtyOrdered; 
 	}
 	
 	public float TotalCost() {
