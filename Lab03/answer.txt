@@ -1,0 +1,7 @@
+- If you create a constructor method to build a DVD by title then create a constructor method to
+build a DVD by category. Does JAVA allow you to do this?
+Answer: 
+Yes, JAVA has overloading-method way to help us construct object with various type of parameters.
+For example, Math, the standard library of java, have 'abs' method to return absolute value of a number. If it can be received any datatype of number without barriers
+We can calculate Math.abs(12) with the fact that 12 is an integer aka 'int' datatype in Java, 
+then calculate Math.abs(-12.23) where -12.23 belongs to float datatype in Java without any trouble.
