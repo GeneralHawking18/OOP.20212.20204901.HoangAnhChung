@@ -1,0 +1,16 @@
+ Is JAVA a Pass by Value or a Pass by Reference programming language?
+
+In JAVA, after the object passes into the method, there is a cloned reference in the implementation 
+of the method. During implementing method, this reference is used through the whole instructions.
+The actual references still remains unchangable. 
+Just the value in the object refered to is changable.
+
+After the call of swap(jungleDVD, cinderellaDVD) why does the title of these two
+objects still remain?
+Because, the JAVAM created a new copy of the former reference before implementing method. 
+Then,
+the formal reference of jungleDVD, cinderellaDVD were used in the scope of method..
+The o1 (which is the formal or cloned reference of jungleDVD) was changed to refer to object o2.
+The o2 (which is the formal or cloned reference of jungleDVD) was changed to refer to object tmp.
+But the actual reference of jungleDVD, cinderellaDVD unchangably refered to the old objects.
+Hence, their value of them were still remained.
