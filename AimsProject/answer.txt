@@ -1,4 +1,4 @@
- Is JAVA a Pass by Value or a Pass by Reference programming language?
+Is JAVA a Pass by Value or a Pass by Reference programming language?
 
 In JAVA, after the object passes into the method, there is a cloned reference in the implementation 
 of the method. During implementing method, this reference is used through the whole instructions.
@@ -14,3 +14,10 @@ The o1 (which is the formal or cloned reference of jungleDVD) was changed to ref
 The o2 (which is the formal or cloned reference of jungleDVD) was changed to refer to object tmp.
 But the actual reference of jungleDVD, cinderellaDVD unchangably refered to the old objects.
 Hence, their value of them were still remained.
+
+
+After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) why is
+the title of the JungleDVD changed?
+When the method is passed by an object, it will create a clone of object but the reference into its
+attributes is still remain. It means that the attributes of clone object and actual object are the same.
+After changing the value of the attribute in the clone object, the behavior also occurs at the actual object.
