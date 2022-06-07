@@ -2,7 +2,7 @@ package hust.soict.dsai.test.disc.TestPassingParameter;
 import java.lang.reflect.Field;
 //import java.util.Arrays;
 
-import hust.soict.dsai.aims.disc.DigitalVideoDisc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
 
 
 public class TestingPassingParameter {

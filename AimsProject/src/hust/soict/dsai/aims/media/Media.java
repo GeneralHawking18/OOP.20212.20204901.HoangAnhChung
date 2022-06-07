@@ -1,0 +1,75 @@
+package hust.soict.dsai.aims.media;
+
+import java.time.LocalDate;
+
+public class Media {
+	protected int id;
+	protected String title;
+	protected String category;
+	protected float cost;
+	
+	protected static int nbMedia = 0;
+	
+	protected LocalDate dateAdded;
+
+	public void increId() {
+		nbMedia ++;
+		this.id = nbMedia;
+		
+	}
+	
+	public Media(String title) {
+		this.title = title;
+		increId();
+		this.dateAdded = LocalDate.now();
+		
+	}
+	
+	public Media(String title, String category, float cost) {
+		this.title = title;
+		this.category = category;
+		this.cost = cost;
+		increId();
+		this.dateAdded = LocalDate.now();
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public String getCategory() {
+		return category;
+	}
+
+
+	public float getCost() {
+		return cost;
+	}
+
+
+	public LocalDate getDateAdded() {
+		return dateAdded;
+	}
+	
+	public boolean isMatch(String title) {
+		String[] other_words = title.split(" ", 0);
+		String[] these_words = this.title.split(" ", 0);
+		
+		for (String word1: these_words) {
+			for (String word2: other_words) {
+				if (word1.compareToIgnoreCase(word2) == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+}
