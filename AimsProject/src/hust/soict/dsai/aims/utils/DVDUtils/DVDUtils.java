@@ -1,11 +1,24 @@
 package hust.soict.dsai.aims.utils.DVDUtils;
 import java.util.function.BiFunction;
 
-import hust.soict.dsai.aims.disc.DigitalVideoDisc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
 
 import java.util.Arrays;
+import java.util.Comparator;
+
 
 public class DVDUtils {
+	public static final Comparator <Media> costComparator = Comparator.comparing(Media::getCost);
+	public static final Comparator <Media> titleComparator = Comparator.comparing(Media::getTitle);
+	public static final Comparator <DigitalVideoDisc> lengthComparator = Comparator.comparing(DigitalVideoDisc::getLength);
+	public static final Comparator <DigitalVideoDisc> printComparator = Comparator.comparing(DigitalVideoDisc::getTitle).
+																		thenComparing(DigitalVideoDisc::getCost, (float1, float2) -> Float.compare(float2, float1)).
+																		thenComparing(DigitalVideoDisc::getLength, (int1, int2) -> Integer.compare(int2, int1));
+	
+	public static final Comparator <Media> costTitleComparator =  Comparator.comparing(Media::getCost).thenComparing(Media::getTitle);
+	public static final Comparator <Media> titleCostComparator =  Comparator.comparing(Media::getTitle).thenComparing(Media::getCost);
+	
 	public static byte compareByTitle(DigitalVideoDisc dvd1, DigitalVideoDisc dvd2) {
 		int value = dvd1.getTitle().compareToIgnoreCase(dvd2.getTitle());
 		if (value > 0) {

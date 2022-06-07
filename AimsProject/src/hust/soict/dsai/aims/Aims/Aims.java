@@ -1,9 +1,11 @@
 package hust.soict.dsai.aims.Aims;
+import hust.soict.dsai.MemoryDaemon.MemoryDaemon;
 import hust.soict.dsai.aims.cart.Cart.Cart;
-import hust.soict.dsai.aims.disc.DigitalVideoDisc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
 import hust.soict.dsai.aims.store.Store.Store;
-import hust.soict.dsai.aims.utils.DVDUtils.DVDUtils;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Aims {
@@ -12,8 +14,6 @@ public class Aims {
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
 		Cart anOrder = new Cart();
 		
 		DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", 
@@ -21,24 +21,23 @@ public class Aims {
 													"Roger Allers", 
 													87, 
 													19.95f);
-		anOrder.addDigitalVideoDisc(dvd1);
+		anOrder.addMedia(dvd1);
 		
 		DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", 
 													"Science Fiction",
 													"George Lucas", 
 													87, 
 													24.95f);
-		anOrder.addDigitalVideoDisc(dvd2);
-		
+		anOrder.addMedia(dvd2);
 		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
 													"Animation", 
 													18.99f);
-		anOrder.addDigitalVideoDisc(dvd3);
-		anOrder.addDigitalVideoDisc(dvd1);
+		anOrder.addMedia(dvd3);
+		anOrder.addMedia(dvd1);
 		DigitalVideoDisc[] temp = {dvd1, dvd1};
-		anOrder.addDigitalVideoDisc(temp);
-		anOrder.addDigitalVideoDisc(dvd1, dvd2);
-		
+		anOrder.addMedia(temp);
+		anOrder.addMedia(dvd1, dvd2);
+		anOrder.addMedia(dvd1, 2);
 		//anOrder.removeDigitalVideoDisc(dvd1);
 		//anOrder.removeDigitalVideoDisc(dvd2);
 		//anOrder.removeDigitalVideoDisc(dvd3);
@@ -46,11 +45,19 @@ public class Aims {
 		cart = anOrder;
 		//cart.print();
 		
-		System.out.printf("Total cost is: \n%f\n", anOrder.TotalCost());
-		store.addDVD(dvd1);
-		store.addDVD(dvd2);
-		store.addDVD(dvd3);
+		System.out.printf("Total cost is: \n%f\n", anOrder.totalCost());
+		store.addMedia(dvd1);
+		store.addMedia(dvd2);
+		store.addMedia(dvd3);
+		MemoryDaemon memDae = new MemoryDaemon();
+		Thread thread = new Thread(memDae);
+		thread.setDaemon(true);
+		thread.start();
+		
 		showMenu();
+	
+		
+		
 	}
 	
 	public static void showMenu() {
@@ -120,7 +127,7 @@ public class Aims {
 				if (!(cost > 0)) title = null;
 				
 				
-				store.addDVD(new DigitalVideoDisc(title, category, director, length, cost));
+				store.addMedia(new DigitalVideoDisc(title, category, director, length, cost));
 				System.out.println("Successfully added!");
 				break;
 				
@@ -129,18 +136,18 @@ public class Aims {
 				sc = new Scanner(System.in);
 				title = sc.nextLine();
 
-				DigitalVideoDisc[] recycleBin = new DigitalVideoDisc[Cart.MAX_NUMBERS_ORDERED];
+				ArrayList<Media> recycleBin = new ArrayList<Media>();
 				int qtyTrashItems = 0;
-		
-				for (int i = 0; i < store.getQtyAvailable(); i++) {
-					if (store.getItemsInStore()[i].getTitle().compareToIgnoreCase(title) == 0) {
-						recycleBin[qtyTrashItems] = store.getItemsInStore()[i];
+				
+				for (Media media: store.getItemsInStore()) {
+					if (media.getTitle().compareToIgnoreCase(title) == 0) {
+						recycleBin.add(media);
 						qtyTrashItems ++;
 					}
 				}
 				
-				for (int i = 0; i < qtyTrashItems; i++) {
-					store.removeDVD(recycleBin[i]);
+				for (Media media: recycleBin) {
+					store.removeMedia(media);
 				}
 				if (qtyTrashItems > 0) {
 					System.out.println("Successfully removed!");
@@ -153,9 +160,9 @@ public class Aims {
 		pressAnyKeyToContinue(new Thread(Aims::updateStoreMenu));
 	}
 	public static void storeMenu() {
-		for (int i = 0; i < store.getQtyAvailable(); i++) {
+		for (int i = 0; i < store.getItemsInStore().size(); i++) {
 			System.out.printf("%d. ", (i + 1));
-			System.out.println(store.getItemsInStore()[i]);
+			System.out.println(store.getItemsInStore().get(i));
 		}
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
@@ -183,17 +190,17 @@ public class Aims {
 				System.out.print("Enter your desired title to add into your cart: ");
 				sc = new Scanner(System.in);
 				title = sc.nextLine();
-				int qtyOrderedBackup = cart.getQtyOrdered();
+				int qtyOrderedBackup = cart.getItemsOrdered().size();
 				
-				for (int i = 0; i < store.getQtyAvailable(); i++) {
-					if (title.compareToIgnoreCase(store.getItemsInStore()[i].getTitle()) == 0) {
-						cart.addDigitalVideoDisc(store.getItemsInStore()[i]);
+				for (int i = 0; i < store.getItemsInStore().size(); i++) {
+					if (title.compareToIgnoreCase(store.getItemsInStore().get(i).getTitle()) == 0) {
+						cart.addMedia(store.getItemsInStore().get(i));
 					}
 				}
-				if (qtyOrderedBackup == cart.getQtyOrdered()) {
+				if (qtyOrderedBackup == cart.getItemsOrdered().size()) {
 					System.out.println("No matched title is found! Nothing added");
 				}
-				System.out.println("The number of items ordered: " + cart.getQtyOrdered());
+				System.out.println("The number of items ordered: " + cart.getItemsOrdered().size());
 				pressAnyKeyToContinue(new Thread(Aims::storeMenu));
 				break;
 				
@@ -227,13 +234,14 @@ public class Aims {
 			System.out.println("1. Filter by Id");
 			System.out.println("2. Filter by title");
 			System.out.println("0. Back");
+			System.out.println("Please choose a number: 0-1-2");
 			
 			Entry = sc.nextInt();
 			switch (Entry) {
 				case 1: 
 					System.out.println("Enter the id to filter: ");
 					int id = sc.nextInt();
-					cart.searchById(id);
+					System.out.println(cart.searchById(id));
 					pressAnyKeyToContinue(cartMenuRefer);
 					break;
 				case 2: 
@@ -247,7 +255,6 @@ public class Aims {
 					cartMenu();
 					break;
 			}
-			
 			break;
 		case 2:
 			System.out.println("One of two sorting options: ");
@@ -273,35 +280,38 @@ public class Aims {
 			System.out.print("Enter your desired title to remove from your cart: ");
 			sc = new Scanner(System.in);
 			String title = sc.nextLine();
-			DigitalVideoDisc[] recycleBin = new DigitalVideoDisc[Cart.MAX_NUMBERS_ORDERED];
-			int qtyTrashItems = 0;
-	
-			for (int i = 0; i < cart.getQtyOrdered(); i++) {
-				if (cart.getItemsOrdered()[i].getTitle().compareToIgnoreCase(title) == 0) {
-					recycleBin[qtyTrashItems] = cart.getItemsOrdered()[i];
-					qtyTrashItems ++;
+			
+			ArrayList<Media> recycleBin = new ArrayList<Media>();
+			
+			for (Media media: cart.getItemsOrdered()) {
+				if (media.getTitle().compareToIgnoreCase(title) == 0) {
+					recycleBin.add(media);
 				}
 			}
-			
-			for (int i = 0; i < qtyTrashItems; i++) {
-				cart.removeDigitalVideoDisc(recycleBin[i]);
+		
+			for (Media media: recycleBin) {
+				cart.removeMedia(media);
+				
 			}
-			/* for (int i = 0; i < qtyTrashItems; i++) {
-				System.out.println(recycleBin[i]);
+			System.out.println(recycleBin);
+			if (recycleBin.size() > 0) {
+				System.out.println("Successfully removed!");
+			}
+			else {
+				System.out.println("Nothing is removed!");
 			}
 			
-			for (int i = 0; i < cart.getQtyOrdered(); i++) {
-				System.out.println(cart.getItemsOrdered()[i]);
-				}
-			*/
-			
-			System.out.println("The number of remaining items ordered is: " + cart.getQtyOrdered());
+			System.out.println("The number of remaining items ordered is: " + cart.getItemsOrdered().size());
+			pressAnyKeyToContinue(cartMenuRefer);
 			break;
 		case 4:
 			System.out.println("Your order has been created!");
-			for (int i = 0; i < cart.getQtyOrdered(); i++) {
-				cart.getItemsOrdered()[i] = null;
-			}
+			Media luckyItem = cart.getALuckyItem();
+			System.out.println("Your lucky item is: ");
+			System.out.println(luckyItem);
+			cart.removeMedia(luckyItem);
+			System.out.println("The price you need to pay is: " + cart.totalCost());
+			cart.getItemsOrdered().clear();
 			pressAnyKeyToMain();
 			break;
 		}

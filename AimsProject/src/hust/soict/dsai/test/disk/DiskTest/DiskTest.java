@@ -1,5 +1,5 @@
-package hust.soict.dsai.aims.DiskTest;
-import hust.soict.dsai.aims.disc.DigitalVideoDisc.DigitalVideoDisc;
+package hust.soict.dsai.test.disk.DiskTest;
+import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
 
 
 

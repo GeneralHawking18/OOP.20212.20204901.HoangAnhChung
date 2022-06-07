@@ -1,6 +1,11 @@
 package hust.soict.dsai.test.cart.CartTest;
+
 import hust.soict.dsai.aims.cart.Cart.Cart;
-import hust.soict.dsai.aims.disc.DigitalVideoDisc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.Book;
+import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.disc.CompactDisc;
+import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
+
 
 public class CartTest {
 	public static void main(String [] args) {
@@ -11,22 +16,23 @@ public class CartTest {
 													"Roger Allers",
 													87,
 													19.95f);
-		cart.addDigitalVideoDisc(dvd1);
+		cart.addMedia(dvd1);
 		
-		DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", 
+		CompactDisc cd1 = new CompactDisc("Star Wars", 
 													"Science Fiction",
 													"George Lucas",
 													87,
 													24.95f); 
-		cart.addDigitalVideoDisc(dvd2);
+		cart.addMedia(cd1);
 		
-		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
-													"Animation",
-													18.99f); 
+		Book book = new Book("Aladin", 
+							"Animation",
+							18.99f); 
 		
-		cart.addDigitalVideoDisc(dvd3);
-		
-		cart.printByCostOrder();
-		cart.print();
+		cart.addMedia(book);
+		book.addAuthor("123");
+		book.addAuthor("1234");
+		book.removeAuthor("12");
+		cart.printByCostTitleOrder();
 	}
 }

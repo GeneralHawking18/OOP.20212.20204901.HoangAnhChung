@@ -1,0 +1,3 @@
+Which classes are aggregates of other classes?
+The class Aims is an aggregate of the classes Store and Cart 
+The class CompactDisc is an aggregate of class Track.
