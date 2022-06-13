@@ -1,11 +1,11 @@
-package hust.soict.dsai.aims.cart.Cart;
+package hust.soict.dsai.aims.cart;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 
 import hust.soict.dsai.aims.media.Media;
-import hust.soict.dsai.aims.utils.DVDUtils.DVDUtils; 
+import hust.soict.dsai.aims.utils.DVDUtils; 
 
 public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
@@ -18,7 +18,7 @@ public class Cart {
 	public void addMedia(Media media) {
 		if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {
 			itemsOrdered.add(media);
-			System.out.println("A new item has been successfully added!");
+			System.out.println("A new item has been successfully added into Cart!");
 		} else {
 			System.out.println("The cart has been already full.");
 		}
@@ -39,7 +39,7 @@ public class Cart {
 				itemsOrdered.add(media);
 			}
 		}
-		System.out.println("Some items has been successfully added!");
+		System.out.println("Some items has been successfully added into Cart!");
 	}
 	
 	
@@ -52,7 +52,7 @@ public class Cart {
 				itemsOrdered.add(media);
 			}
 		}
-		System.out.println("Successfully added!");
+		System.out.println("Some items has been successfully added into Cart!");
 	}
 	
 	public void removeMedia(Media media) {

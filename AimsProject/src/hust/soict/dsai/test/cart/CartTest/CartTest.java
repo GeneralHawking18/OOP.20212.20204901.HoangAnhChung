@@ -1,6 +1,6 @@
 package hust.soict.dsai.test.cart.CartTest;
 
-import hust.soict.dsai.aims.cart.Cart.Cart;
+import hust.soict.dsai.aims.cart.Cart;
 import hust.soict.dsai.aims.media.Book;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.disc.CompactDisc;

@@ -3,7 +3,7 @@ package hust.soict.dsai.aims.media.disc;
 import java.time.LocalDate;
 
 import hust.soict.dsai.aims.media.Media;
-import hust.soict.dsai.aims.playable.Playable.Playable;
+import hust.soict.dsai.aims.playable.Playable;
 
 public class DigitalVideoDisc extends Media implements Playable{
 	private String director;
