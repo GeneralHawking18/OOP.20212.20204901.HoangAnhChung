@@ -2,11 +2,14 @@ package hust.soict.dsai.aims.media;
 
 import java.time.LocalDate;
 
-public class Media {
+
+
+public class Media implements Comparable<Media>{
 	protected int id;
 	protected String title;
 	protected String category;
 	protected float cost;
+	
 	
 	protected static int nbMedia = 0;
 	
@@ -38,8 +41,6 @@ public class Media {
 		return id;
 	}
 
-
-
 	public String getTitle() {
 		return title;
 	}
@@ -59,6 +60,27 @@ public class Media {
 		return dateAdded;
 	}
 	
+	@Override
+	public int compareTo(Media media) {
+		int titleVal = this.title.compareToIgnoreCase(media.getTitle());
+		int categoryVal = this.category.compareToIgnoreCase(media.getCategory());
+		
+		if (!(titleVal == 0)) {
+			titleVal = titleVal / Math.abs(titleVal);
+			return titleVal;
+		} 
+		
+		if (!(categoryVal == 0)) {
+			categoryVal =  categoryVal / Math.abs(categoryVal);
+			return categoryVal;
+		}
+		
+		return 0;
+		
+		
+	}
+	
+	
 	public boolean isMatch(String title) {
 		String[] other_words = title.split(" ", 0);
 		String[] these_words = this.title.split(" ", 0);
@@ -71,5 +93,19 @@ public class Media {
 			}
 		}
 		return false;
+	}
+	
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Media)) {
+			return false;
+		}
+		else {
+			if (((Media) o).getId() == this.getId()) {
+				return true;
+			}
+			else return false;
+		}
 	}
 }
