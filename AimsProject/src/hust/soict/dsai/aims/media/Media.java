@@ -1,12 +1,20 @@
 package hust.soict.dsai.aims.media;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 
-public class Media {
+import hust.soict.dsai.aims.comparator.MediaComparatorByCostTitle;
+import hust.soict.dsai.aims.comparator.MediaComparatorByTitleCost;
+
+
+public class Media implements Comparable<Media>{
 	protected int id;
 	protected String title;
 	protected String category;
 	protected float cost;
+	
+	public static final Comparator<Media> COMPARE_BY_TITLE_COST = new MediaComparatorByTitleCost();
+	public static final Comparator<Media> COMPARE_BY_COST_TITLE = new MediaComparatorByCostTitle();
 	
 	protected static int nbMedia = 0;
 	
@@ -38,8 +46,6 @@ public class Media {
 		return id;
 	}
 
-
-
 	public String getTitle() {
 		return title;
 	}
@@ -59,6 +65,27 @@ public class Media {
 		return dateAdded;
 	}
 	
+	@Override
+	public int compareTo(Media media) {
+		int titleVal = this.title.compareToIgnoreCase(media.getTitle());
+		int categoryVal = this.category.compareToIgnoreCase(media.getCategory());
+		
+		if (!(titleVal == 0)) {
+			titleVal = titleVal / Math.abs(titleVal);
+			return titleVal;
+		} 
+		
+		if (!(categoryVal == 0)) {
+			categoryVal =  categoryVal / Math.abs(categoryVal);
+			return categoryVal;
+		}
+		
+		return 0;
+		
+		
+	}
+	
+	
 	public boolean isMatch(String title) {
 		String[] other_words = title.split(" ", 0);
 		String[] these_words = this.title.split(" ", 0);
@@ -72,6 +99,7 @@ public class Media {
 		}
 		return false;
 	}
+	
 	
 	@Override
 	public boolean equals(Object o) {
