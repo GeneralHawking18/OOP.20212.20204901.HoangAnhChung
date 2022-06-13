@@ -1,14 +1,12 @@
 package hust.soict.dsai.aims.media;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
+import java.util.Collections;
 public class Book extends Media{
 	private List<String> authors = new ArrayList<String>();
 	private String content;
@@ -41,7 +39,11 @@ public class Book extends Media{
 	
 	@Override 
 	public String toString() {
-		return String.format("Book - %s - %s - %s - %f", super.getTitle(), super.getCategory(), authors, super.getCost());
+		return String.format("Book - %s - %s - %s - %f "
+				+ "\n The number of tokens is: %d"
+				+ "\n The tokens in book: %s"
+				+ "\n The word frequency is: %s", 
+				super.getTitle(), super.getCategory(), authors, super.getCost(), contentTokens.size(), contentTokens, wordFrequency);
 	} 
 	// What are tokens of book?
 	
@@ -51,6 +53,7 @@ public class Book extends Media{
 						.filter(str -> str.trim().length() > 0)
 						.map(str -> str.toLowerCase())
 						.collect(Collectors.toList());
+		Collections.sort(contentTokens);
 	/*	wordFrequency = contentTokens.stream().collect(Collectors.toMap(String::toString, Collectors.counting(),
 		        (ghrPrevious, ghrNew) -> ghrNew,
 		        () -> new TreeMap(Comparator.reverseOrder()))); */
@@ -59,14 +62,6 @@ public class Book extends Media{
 			
 		}
 		//wordFrequency = contentTokens.stream().collect(Collectors.groupingBy(String::toString, (int) Collectors.counting()));
-		System.out.println(wordFrequency);
-		
 	}
 	
-	
-	
-	
-	
-	
-
 }
