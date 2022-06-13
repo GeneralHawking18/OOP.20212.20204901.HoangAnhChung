@@ -1,4 +1,4 @@
-package hust.soict.dsai.aims.utils.DVDUtils;
+package hust.soict.dsai.aims.utils;
 import java.util.function.BiFunction;
 
 import hust.soict.dsai.aims.media.Media;

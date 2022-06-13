@@ -1,9 +1,11 @@
-package hust.soict.dsai.aims.Aims;
+package hust.soict.dsai.aims;
 import hust.soict.dsai.MemoryDaemon.MemoryDaemon;
-import hust.soict.dsai.aims.cart.Cart.Cart;
+import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.media.Book;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
-import hust.soict.dsai.aims.store.Store.Store;
+import hust.soict.dsai.aims.playable.Playable;
+import hust.soict.dsai.aims.store.Store;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,11 +25,9 @@ public class Aims {
 													19.95f);
 		anOrder.addMedia(dvd1);
 		
-		DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", 
+		Book dvd2 = new Book("Star Wars", 
 													"Science Fiction",
-													"George Lucas", 
-													87, 
-													24.95f);
+													87);
 		anOrder.addMedia(dvd2);
 		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
 													"Animation", 
@@ -128,7 +128,7 @@ public class Aims {
 				
 				
 				store.addMedia(new DigitalVideoDisc(title, category, director, length, cost));
-				System.out.println("Successfully added!");
+				System.out.println("A new item has been successfully added into Store!");
 				break;
 				
 			case 2:
@@ -160,6 +160,7 @@ public class Aims {
 		pressAnyKeyToContinue(new Thread(Aims::updateStoreMenu));
 	}
 	public static void storeMenu() {
+		Thread methodReference = new Thread(Aims::storeMenu);
 		for (int i = 0; i < store.getItemsInStore().size(); i++) {
 			System.out.printf("%d. ", (i + 1));
 			System.out.println(store.getItemsInStore().get(i));
@@ -169,9 +170,10 @@ public class Aims {
 		System.out.println("1. See a DVD’s details");
 		System.out.println("2. Add a DVD to cart");
 		System.out.println("3. See current cart");
+		System.out.println("4. Play a DVD or CD item");
 		System.out.println("0. Back");
 		System.out.println("--------------------------------");
-		System.out.println("Please choose a number: 0-1-2-3");
+		System.out.println("Please choose a number: 0-1-2-3-4");
 		
 		int Entry = sc.nextInt();
 		String title;
@@ -201,13 +203,24 @@ public class Aims {
 					System.out.println("No matched title is found! Nothing added");
 				}
 				System.out.println("The number of items ordered: " + cart.getItemsOrdered().size());
-				pressAnyKeyToContinue(new Thread(Aims::storeMenu));
+				pressAnyKeyToContinue(methodReference);
 				break;
 				
 				
 			case 3:
 				cart.print();
 				cartMenu();
+				break;
+				
+			case 4:
+				System.out.println("Enter the index of item you want to play: ");
+				sc = new Scanner(System.in);
+				Entry = sc.nextInt();
+				Media ChosenItem = store.getItemsInStore().get(Entry - 1);
+				if (ChosenItem instanceof Playable) {
+					((Playable)ChosenItem).play();
+				}
+				pressAnyKeyToContinue(methodReference);
 				break;
 		}
 	}
