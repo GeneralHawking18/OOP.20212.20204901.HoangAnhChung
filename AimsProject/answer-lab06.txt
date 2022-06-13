@@ -1,0 +1,20 @@
+Which method(s) do you need to implement from this interface?
+That is the method CompareTo
+
+Task 6:
+- Create an ArrayList of Media, then add some media (CD, DVD, or Book) to the list: 
+	+ At hust.soict.test.media.TestMediaToString
+
+- Iterate through the list and print out the information of the media by using the toString() method.
+	+ At hust.soict.test.media.TestMediaToString
+- Observe what happens and explain it in detail:
+	+ It is obviously Polymorphism. 
+	That means that:
+	In for-loop block:
+		for (Media m: mediae) 
+		System.out.println(m.toString()); \\ m is an object of Media. 
+	The statement generalizes that an media object use its toString.
+	But by Polymorphism, each object belonging to the its class will execute its toString.
+	In particular, if the iterator 'm' point to an CD object, then m is downcasted into CD object.
+	After running down into child class CD, then execute CD.toString().
+
