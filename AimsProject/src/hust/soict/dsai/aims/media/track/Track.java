@@ -22,4 +22,14 @@ public class Track{
 		System.out.println("DVD length: " + this.getLength());
 	}
 	
+	@Override 
+	public boolean equals(Object o) {
+		if (!(o instanceof Track)) {
+			return false;
+		}
+		else {
+			Track trackObj = (Track) o;
+			return (trackObj.getTitle() == this.getTitle()) && trackObj.getLength() == this.getLength();
+		}
+	}
 }
