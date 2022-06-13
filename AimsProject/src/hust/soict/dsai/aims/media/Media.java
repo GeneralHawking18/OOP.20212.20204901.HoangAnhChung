@@ -72,4 +72,17 @@ public class Media {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Media)) {
+			return false;
+		}
+		else {
+			if (((Media) o).getId() == this.getId()) {
+				return true;
+			}
+			else return false;
+		}
+	}
 }
