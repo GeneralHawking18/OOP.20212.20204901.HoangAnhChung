@@ -3,7 +3,7 @@ package hust.soict.dsai.aims.media.disc;
 import java.util.ArrayList;
 
 import hust.soict.dsai.aims.media.track.Track;
-import hust.soict.dsai.aims.playable.Playable.Playable;
+import hust.soict.dsai.aims.playable.Playable;
 
 public class CompactDisc extends Disc implements Playable{
 	private String artist;

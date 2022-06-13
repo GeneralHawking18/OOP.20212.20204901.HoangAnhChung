@@ -1,9 +1,19 @@
 package hust.soict.dsai.aims.media;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Book extends Media{
 	private List<String> authors = new ArrayList<String>();
+	private String content;
+	private List<String> contentTokens;
+	private Map<String,Integer> wordFrequency = new TreeMap<String,Integer>();
 	
 	public Book(String title) {
 		super(title);
@@ -13,6 +23,9 @@ public class Book extends Media{
 		super(title, category, cost);
 	}
 	
+	public void setContent(String str) {
+		content = str;
+	}
 	public void addAuthor(String authorName) {
 		if (authors.contains(authorName) == false) {
 			authors.add(authorName);
@@ -25,10 +38,31 @@ public class Book extends Media{
 		}
 	}
 	
+	
 	@Override 
 	public String toString() {
 		return String.format("Book - %s - %s - %s - %f", super.getTitle(), super.getCategory(), authors, super.getCost());
+	} 
+	// What are tokens of book?
+	
+	public void processContent() {
+		String delimiter3 = "\\W+";
+		contentTokens = Arrays.stream(content.split(delimiter3, 0))
+						.filter(str -> str.trim().length() > 0)
+						.map(str -> str.toLowerCase())
+						.collect(Collectors.toList());
+	/*	wordFrequency = contentTokens.stream().collect(Collectors.toMap(String::toString, Collectors.counting(),
+		        (ghrPrevious, ghrNew) -> ghrNew,
+		        () -> new TreeMap(Comparator.reverseOrder()))); */
+		for (String word: contentTokens) {
+			wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
+			
+		}
+		//wordFrequency = contentTokens.stream().collect(Collectors.groupingBy(String::toString, (int) Collectors.counting()));
+		System.out.println(wordFrequency);
+		
 	}
+	
 	
 	
 	
