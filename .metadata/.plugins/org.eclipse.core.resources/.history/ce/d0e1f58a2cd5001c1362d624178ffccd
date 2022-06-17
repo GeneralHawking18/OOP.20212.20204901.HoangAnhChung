@@ -1,0 +1,15 @@
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Cart test = new Cart();
+		DigitalVideoDisc dvd1 = new DigitalVideoDisc("12323", "animation", "Roger", 87, 12.34f);
+		DigitalVideoDisc dvd2 = new DigitalVideoDisc("22323", "animation", "Roger2", 123, 25.34f);
+		test.addDigitalVideoDisc(dvd1, 13);
+		test.addDigitalVideoDisc(dvd2, 7);
+		System.out.println(test.TotalCost());
+
+	}
+
+}
+

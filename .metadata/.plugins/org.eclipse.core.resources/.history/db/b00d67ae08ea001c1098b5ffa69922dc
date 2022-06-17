@@ -1,0 +1,9 @@
+package hust.soict.dsai.test.book;
+
+import hust.soict.dsai.aims.media.Book;
+
+public class BookTest {
+	Book booktest = new Book("Test book"); 
+	booktest.setContent("");
+	
+}

@@ -1,0 +1,9 @@
+package hust.soict.dsai.aims.comparator;
+
+import java.util.Comparator;
+
+public class MediaComparatorByTitleCost implements Comparator<Media>{
+	public int compare() {
+		
+	}
+}

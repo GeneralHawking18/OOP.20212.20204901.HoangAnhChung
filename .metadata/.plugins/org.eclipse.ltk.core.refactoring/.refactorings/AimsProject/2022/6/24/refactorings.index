@@ -1,0 +1,51 @@
+1654421221628	Copy compilation unit
+1654421233865	Delete element
+1654430132351	Delete element
+1654434411226	Rename type 'Comparator'
+1654434526756	Rename type 'GeneralComparator'
+1654598532293	Delete element
+1654599761500	Move compilation unit
+1654599774681	Delete element
+1654599781159	Delete element
+1654610321329	Delete element
+1654610325305	Delete element
+1654610327784	Delete element
+1654610330750	Delete element
+1654610686287	Rename package 'hust.soict.dsai.aims.disc.DigitalVideoDisc'
+1654610701723	Rename package 'hust.soict.dsai.aims.disc.CompactDisc'
+1654610726042	Copy package
+1654610737404	Delete element
+1654610740550	Copy package
+1654610753822	Delete element
+1654611229797	Copy compilation unit
+1654611256448	Delete element
+1654614236696	Rename package 'hust.soict.dsai.aims.disc.Disc'
+1654614247952	Copy package
+1654614254213	Copy package
+1654614256672	Delete element
+1654614266661	Copy package
+1654614269855	Delete element
+1654614277877	Copy package
+1654614283607	Delete element
+1654614288904	Copy package
+1654614347388	Delete element
+1654614468680	Delete element
+1654614573260	Move compilation unit
+1654614576300	Move compilation unit
+1654614585373	Move compilation unit
+1654614587590	Delete element
+1654614589040	Delete element
+1654614591045	Delete element
+1654614656074	Rename package 'hust.soict.dsai.aims.DiskTest'
+1654614679691	Rename package 'hust.soict.dsai.aims.track.Track'
+1654614770170	Rename package 'hust.soict.dsai.aims.media.track.Track'
+1654614846744	Rename package 'hust.soict.dsai.aims.test.DiskTest'
+1654614872597	Rename package 'hust.soict.dsai.aims.test.disk.DiskTest'
+1654614906363	Delete element
+1654616494579	Rename package 'MemoryDaemon'
+1654616624919	Rename package 'hust.soict.dsai.aims.media.MemoryDaemon'
+1654912004958	Rename package 'hust.soict.dsai.aims.Aims'
+1654912035020	Rename package 'hust.soict.dsai.aims.cart.Cart'
+1654912095395	Rename package 'hust.soict.dsai.aims.store.Store'
+1654912105274	Rename package 'hust.soict.dsai.aims.playable.Playable'
+1654912131675	Rename package 'hust.soict.dsai.aims.utils.DVDUtils'

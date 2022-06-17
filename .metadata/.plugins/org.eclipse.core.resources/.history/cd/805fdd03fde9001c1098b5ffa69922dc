@@ -1,0 +1,19 @@
+package hust.soict.dsai.aims.comparator;
+
+import java.util.Comparator;
+
+import hust.soict.dsai.aims.media.Media;
+
+public class MediaComparatorByTitleCost implements Comparator<Media>{
+	@Override
+	public int compare(Media o1, Media o2) {
+		int titleVal = o1.getTitle().compareToIgnoreCase(o2s.getTitle());
+		
+		if (!(titleVal == 0)) {
+			titleVal = titleVal / Math.abs(titleVal);
+			return titleVal;
+		} 
+		
+		return Float.compare(o2.getCost(), o1.getCost());
+	}
+}
