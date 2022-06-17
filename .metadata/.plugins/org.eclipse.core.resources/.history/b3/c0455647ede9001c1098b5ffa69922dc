@@ -1,5 +1,0 @@
-package hust.soict.dsai.aims.comparable;
-
-public interface Comparable {
-
-}
