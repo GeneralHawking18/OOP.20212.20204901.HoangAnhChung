@@ -23,8 +23,8 @@ import hust.soict.dsai.aims.screen.manager.AddItemToStoreScreen;
 public class AddBookToStoreScreen extends AddItemToStoreScreen{
 	private JEditorPane contentTEP;
 	
-	public AddBookToStoreScreen(Store store, Container cp) {
-		super(store, cp);
+	public AddBookToStoreScreen(Store store) {
+		super(store);
 	}
 	
 	@Override

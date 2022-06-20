@@ -23,34 +23,22 @@ import javax.swing.JTextField;
 
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.store.Store;
-//import hust.soict.dsai.aims.screen.manager.AddBookToStoreScreen;
-//import hust.soict.dsai.aims.screen.manager.StoreManagerScreen;
 
 
-public abstract class AddItemToStoreScreen extends Container {
-	private Store store;
+
+public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 	private Media media;
-	private Container mainCp;
 	JTextField titleTF;
 	JTextField categoryTF;
 	JTextField costTF; 
 	
 	
-	public AddItemToStoreScreen(Store store, Container cp) {
-		this.store = store;
-		this.mainCp = cp;
-		super.setLayout(new BorderLayout());
-		
-		super.add(createNorth(), BorderLayout.NORTH);
-		
-		super.add(createCenter(), BorderLayout.CENTER);
-		
+	public AddItemToStoreScreen(Store store) {
+		super(store);
+
 		super.add(createSouth(), BorderLayout.SOUTH);
 		
-		/* setTitle("Store");
-		setSize(1024, 768);
-		setLocationRelativeTo(null);
-		setVisible(true); */
+		
 		
 	}
 	
@@ -81,7 +69,7 @@ public abstract class AddItemToStoreScreen extends Container {
 	JMenuBar createMenuBar() {
 		JMenu menu = new JMenu("Options");
 		MenuItem viewStoreItem = new MenuItem("View store");
-		viewStoreItem.addTo(menu, mainCp.getClass());
+		viewStoreItem.addTo(menu, StoreManagerScreen.class);
 		//viewStore(menu);
 		
 		
@@ -100,21 +88,6 @@ public abstract class AddItemToStoreScreen extends Container {
 		menuBar.add(menu);
 		
 		return menuBar;
-	}
-	
-	JPanel createHeader() {
-		JPanel header = new JPanel();
-		header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
-		
-		JLabel title = new JLabel("AIMS");
-		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 50));
-		title.setForeground(Color.CYAN);
-		
-		header.add(Box.createRigidArea(new Dimension(10, 10)));
-		header.add(title);
-		header.add(Box.createHorizontalGlue());
-		header.add(Box.createRigidArea(new Dimension(10, 10)));
-		return header;
 	}
 	
 	class MediaEntry {
@@ -168,35 +141,15 @@ public abstract class AddItemToStoreScreen extends Container {
 				@SuppressWarnings("unchecked")
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//dispose();
-					try {
-						screenClass.getConstructor(Store.class, Container.class).newInstance(store, mainCp);
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException e1) {
-						try {
-							screenClass.getConstructor().newInstance();
-						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e2) {
-							e1.printStackTrace();
-						}
-					};				
-				}
-			});
-		}
-		
-		/* public void addTo(JMenu menu, Container container) {
-			menu.add(this);
-			this.addActionListener(new ActionListener() {
-				@SuppressWarnings("unchecked")
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//dispose();
+					dispose();
 					try {
 						screenClass.getConstructor(Store.class).newInstance(store);
 					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 						e1.printStackTrace();
-					}
-;				}
+					};
+				}
 			});
-		}*/
+		}
 	};
 	
 

@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -21,16 +22,15 @@ import hust.soict.dsai.aims.store.Store;
 
 public class StoreManagerScreen extends JFrame{
 	protected Store store;
-	protected Container cp;
 	
 	public StoreManagerScreen(Store store) {
-		this.cp = getContentPane();
+		Container cp = getContentPane();
+	
 		this.store = store;
 		
-		this.cp = getContentPane();
-		this.cp.setLayout(new BorderLayout());
-		this.cp.add(createNorth(), BorderLayout.NORTH);
-		this.cp.add(createCenter(), BorderLayout.CENTER);
+		cp.setLayout(new BorderLayout());
+		cp.add(createNorth(), BorderLayout.NORTH);
+		cp.add(createCenter(), BorderLayout.CENTER);
 
 		
 		setTitle("Store");
@@ -38,11 +38,6 @@ public class StoreManagerScreen extends JFrame{
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
-	}
-	public void clrscr() {
-		cp.removeAll();
-		cp.revalidate();
-		cp.repaint();
 	}
 	
 	JPanel createNorth() {
@@ -53,44 +48,31 @@ public class StoreManagerScreen extends JFrame{
 		return north;
 	}
 	
-	JPanel createSouth() {
-		JPanel jp = new JPanel();
+	JPanel createCenter() {
 		
-		return jp;
+		JPanel center = new JPanel();
+		center.setLayout(new GridLayout(3, 3, 2, 2));
+		
+		ArrayList<Media> mediaInStore = store.getItemsInStore();
+		for (int i = 0; i < mediaInStore.size(); i ++) {
+			MediaStore cell = new MediaStore(mediaInStore.get(i));
+			center.add(cell);
+			
+		}
+		return center;
 	}
+	
 	JMenuBar createMenuBar() {
 		JMenu menu = new JMenu("Options");
-		
-		JMenuItem addViewStoreItem = new JMenuItem("View store");
-		menu.add(addViewStoreItem);
-		addViewStoreItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//dispose();
-				//new StoreManagerScreen(store);
-				cp = getContentPane();
-			}
-		});
-		menu.add(addViewStoreItem);
+		MenuItem viewStoreItem = new MenuItem("View store");
+		viewStoreItem.addTo(menu, StoreManagerScreen.class);
+		//viewStore(menu);
 		
 		
 		JMenu smUpdateStore = new JMenu("Update Store");
-		
-		JMenuItem addBookMenuItem = new JMenuItem("Add Book");
-		
-		smUpdateStore.add(addBookMenuItem);
-		addBookMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				StoreManagerScreen.this.clrscr();
-				//dispose();
-				StoreManagerScreen.this.setContentPane(new AddBookToStoreScreen(store, cp));
-				//;
-				
-				
-			}
-		});
-		
+		MenuItem addBookItem = new MenuItem("Add Book");
+		addBookItem.addTo(smUpdateStore, AddBookToStoreScreen.class);
+	
 		
 		smUpdateStore.add(new JMenuItem("Add CD"));
 		smUpdateStore.add(new JMenuItem("Add DVD"));
@@ -119,25 +101,34 @@ public class StoreManagerScreen extends JFrame{
 		return header;
 	}
 	
-	JPanel createCenter() {
-		JPanel center = new JPanel();
-		center.setLayout(new GridLayout(3, 3, 2, 2));
-		
-		ArrayList<Media> mediaInStore = store.getItemsInStore();
-		
-		//for(int i = 0; i < 9; i ++) {
-		for (int i = 0; i < mediaInStore.size(); i ++) {
-			MediaStore cell = new MediaStore(mediaInStore.get(i));
-			center.add(cell);
-		}
-		return center;
- 	}
+
+	
 	
 	public Store getStore() {
 		return store;
 	}
 	
-	
+	private class MenuItem extends JMenuItem {
+		public MenuItem(String text) {
+			super(text);
+		}
+		public void addTo(JMenu menu, Class screenClass) {
+			menu.add(this);
+			this.addActionListener(new ActionListener() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+					try {
+						
+						screenClass.getConstructor(Store.class).newInstance(store);
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+						e1.printStackTrace();
+					};
+				}
+			});
+		}
+	}
 	public static void main(String... args) {
 		DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", 
 				"Animation", 
@@ -159,7 +150,5 @@ public class StoreManagerScreen extends JFrame{
 		store.addMedia(dvd3);
 		new StoreManagerScreen(store);
 	}
-	
-	
-	
+
 }
