@@ -17,7 +17,9 @@ import javax.swing.event.MenuListener;
 
 import hust.soict.dsai.aims.media.Book;
 import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.disc.CompactDisc;
 import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.track.Track;
 import hust.soict.dsai.aims.store.Store;
 
 public class StoreManagerScreen extends JFrame{
@@ -48,6 +50,7 @@ public class StoreManagerScreen extends JFrame{
 		return north;
 	}
 	
+	
 	JPanel createCenter() {
 		
 		JPanel center = new JPanel();
@@ -57,7 +60,6 @@ public class StoreManagerScreen extends JFrame{
 		for (int i = 0; i < mediaInStore.size(); i ++) {
 			MediaStore cell = new MediaStore(mediaInStore.get(i));
 			center.add(cell);
-			
 		}
 		return center;
 	}
@@ -70,12 +72,17 @@ public class StoreManagerScreen extends JFrame{
 		
 		
 		JMenu smUpdateStore = new JMenu("Update Store");
+		
+		
 		MenuItem addBookItem = new MenuItem("Add Book");
 		addBookItem.addTo(smUpdateStore, AddBookToStoreScreen.class);
 	
+		MenuItem addCDItem = new MenuItem("Add CD");
+		addCDItem.addTo(smUpdateStore, AddCompactDiscToStoreScreen.class);
 		
-		smUpdateStore.add(new JMenuItem("Add CD"));
-		smUpdateStore.add(new JMenuItem("Add DVD"));
+		MenuItem addDVDItem = new MenuItem("Add DVD");
+		addDVDItem.addTo(smUpdateStore, AddDigitalVideoDiscToStoreScreen.class);
+		
 		
 		menu.add(smUpdateStore);
 		
@@ -101,9 +108,6 @@ public class StoreManagerScreen extends JFrame{
 		return header;
 	}
 	
-
-	
-	
 	public Store getStore() {
 		return store;
 	}
@@ -120,7 +124,6 @@ public class StoreManagerScreen extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					dispose();
 					try {
-						
 						screenClass.getConstructor(Store.class).newInstance(store);
 					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 						e1.printStackTrace();
@@ -140,9 +143,11 @@ public class StoreManagerScreen extends JFrame{
 				"Science Fiction",
 				87);
 
-		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
+		CompactDisc dvd3 = new CompactDisc("Aladin", 
 				"Animation", 
-				18.99f);
+				"Test", 18.99f);
+		dvd3.addTrack(new Track("123", 123));
+		dvd3.addTrack(new Track("1234", 123));
 		
 		Store store = new Store();
 		store.addMedia(dvd1);

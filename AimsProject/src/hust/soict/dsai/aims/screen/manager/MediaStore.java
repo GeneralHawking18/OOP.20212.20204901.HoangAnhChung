@@ -3,6 +3,9 @@ package hust.soict.dsai.aims.screen.manager;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -30,6 +33,26 @@ public class MediaStore extends JPanel {
 		
 		if (media instanceof Playable) {
 			JButton playButton = new JButton("Play");
+			playButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					
+					JDialog playDialog = new JDialog();
+					playDialog.setTitle("Playing...");
+					
+					JLabel playMedia = playMedia((Playable) media);
+					
+					//playFrame.add(test);
+					playDialog.add(playMedia);
+					playDialog.setSize(600, 200);
+					playDialog.setLocationRelativeTo(null);
+					playDialog.setVisible(true);
+					
+				}
+				
+			});
 			container.add(playButton);
 		}
 		
@@ -42,4 +65,13 @@ public class MediaStore extends JPanel {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 	}
+	public JLabel playMedia(Playable media) {
+		JLabel label = new JLabel(processLabel(media.play()));
+		return label;
+	}
+	public String processLabel(String text) {
+		text = "<html>" + text + "</html>";
+		return text.replace("\n", "<br>");
+	}
+	
 }

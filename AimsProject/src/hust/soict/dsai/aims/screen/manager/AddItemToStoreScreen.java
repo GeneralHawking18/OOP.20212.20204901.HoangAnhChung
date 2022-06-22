@@ -35,23 +35,21 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 	
 	public AddItemToStoreScreen(Store store) {
 		super(store);
-
 		super.add(createSouth(), BorderLayout.SOUTH);
 		
-		
-		
+	}
+
+	@Override 
+	public JPanel createNorth() {
+		JPanel jp = super.createNorth();
+		JLabel label = new JLabel(this.getClass().getSimpleName()); 
+		label.setAlignmentX(CENTER_ALIGNMENT);
+		label.setFont(new Font(label.getFont().getName(), Font.CENTER_BASELINE, 15));
+		jp.add(label);
+		return jp;
 	}
 	
 	public abstract JPanel createCenter();
-	
-	JPanel createNorth() {
-		JPanel north = new JPanel();
-		north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
-		north.add(createMenuBar());
-		north.add(createHeader());
-		
-		return north;
-	}
 	
 	public JPanel createSouth() {
 		JPanel south = new JPanel();
@@ -66,36 +64,13 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 		return south;
 	}
 	
-	JMenuBar createMenuBar() {
-		JMenu menu = new JMenu("Options");
-		MenuItem viewStoreItem = new MenuItem("View store");
-		viewStoreItem.addTo(menu, StoreManagerScreen.class);
-		//viewStore(menu);
-		
-		
-		JMenu smUpdateStore = new JMenu("Update Store");
-		MenuItem addBookItem = new MenuItem("Add Book");
-		addBookItem.addTo(smUpdateStore, AddBookToStoreScreen.class);
-	
-		
-		smUpdateStore.add(new JMenuItem("Add CD"));
-		smUpdateStore.add(new JMenuItem("Add DVD"));
-		
-		menu.add(smUpdateStore);
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		menuBar.add(menu);
-		
-		return menuBar;
-	}
 	
 	class MediaEntry {
 		public JPanel createTitle() {
 			JPanel jp = new JPanel();
 			jp.setLayout(new FlowLayout());
 		
-			jp.add(new JLabel("Enter the title of book: "));
+			jp.add(new JLabel("Enter the title: "));
 		
 			titleTF = new JTextField(10);
 			jp.add(titleTF);
@@ -107,7 +82,7 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 			JPanel jp = new JPanel();
 			jp.setLayout(new FlowLayout());
 		
-			jp.add(new JLabel("Enter the category of book: "));
+			jp.add(new JLabel("Enter the category: "));
 		
 			categoryTF = new JTextField(10);
 			jp.add(categoryTF);
@@ -120,7 +95,7 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 			JPanel jp = new JPanel();
 			jp.setLayout(new FlowLayout());
 		
-			jp.add(new JLabel("Enter the cost of book: "));
+			jp.add(new JLabel("Enter the cost: "));
 		
 			costTF = new JTextField(6);
 			jp.add(costTF);
@@ -130,27 +105,6 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 		}
 		
 	}
-	
-	private class MenuItem extends JMenuItem {
-		public MenuItem(String text) {
-			super(text);
-		}
-		public void addTo(JMenu menu, Class screenClass) {
-			menu.add(this);
-			this.addActionListener(new ActionListener() {
-				@SuppressWarnings("unchecked")
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-					try {
-						screenClass.getConstructor(Store.class).newInstance(store);
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
-						e1.printStackTrace();
-					};
-				}
-			});
-		}
-	};
 	
 
 	private class ButtonListener implements ActionListener{
