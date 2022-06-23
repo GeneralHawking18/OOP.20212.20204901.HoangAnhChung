@@ -34,6 +34,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen{
 	private JTextField artistTF;
 	private List<TrackField> trackEntry = new ArrayList<TrackField>();
 	private JPanel addTrackPanel;
+	
 	public AddCompactDiscToStoreScreen(Store store) {
 		super(store);
 	}
@@ -66,7 +67,8 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen{
 		
 		
 		JPanel moreButPanel = new JPanel();
-		moreButPanel.add(new moreButton());
+		moreButton moreBut = new moreButton();
+		moreButPanel.add(moreBut);
 		jp.add(moreButPanel, BorderLayout.SOUTH);
 		
 		return jp;
@@ -91,11 +93,8 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen{
 		CompactDisc cd = new CompactDisc(title, category, artist, cost);
 		for (TrackField trackField: trackEntry) {
 			String trackTitle = trackField.getTitle();
-			System.out.println(trackTitle);
 			int trackLen = Integer.parseInt(trackField.lengthTF.getText());
-			
 			cd.addTrack(new Track(trackTitle, trackLen));
-			System.out.println("1");
 		}
 		super.setMedia(cd);
 	}
@@ -125,20 +124,19 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen{
 			TrackField trackField = new TrackField();
 			addTrackPanel.add(trackField);
 			trackEntry.add(trackField);
-
 			AddCompactDiscToStoreScreen.this.revalidate();
 		}
 		
 	}
 	
-	private class TrackField extends JPanel{
-		static int tag;
+	protected class TrackField extends JPanel{
+		//static int tag;
 		private JLabel label;
 		JTextField titleTF = new JTextField(6);
 		private JTextField lengthTF = new JTextField(3);
 		
 		public TrackField() {
-			tag ++;
+			//tag ++;
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			
 			this.add(Box.createVerticalGlue());
@@ -150,7 +148,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen{
 				line[i] = new JPanel();
 			}
 			
-			label = new JLabel("Track " + tag);
+			label = new JLabel("Track " + (trackEntry.size() + 1));
 			label.setAlignmentX(LEFT_ALIGNMENT);
 			line[0].add(label);
 			

@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -113,6 +114,13 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 			AddItemToStoreScreen.this.createMedia();
 			store.addMedia(media);
 			
+			JFrame frame = new JFrame();
+	        JOptionPane.showMessageDialog(frame,
+	                "Successfully added!",
+	                "Notification",
+	                JOptionPane.INFORMATION_MESSAGE);
+	       
+	        
 		}
 	}
 	public void setMedia(Media media) {

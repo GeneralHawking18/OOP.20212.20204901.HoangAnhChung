@@ -118,6 +118,7 @@ public class StoreManagerScreen extends JFrame{
 		}
 		public void addTo(JMenu menu, Class screenClass) {
 			menu.add(this);
+			//AddCompactDiscToStoreScreen.TrackField.tag = 0;
 			this.addActionListener(new ActionListener() {
 				@SuppressWarnings("unchecked")
 				@Override
