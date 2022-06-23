@@ -1,0 +1,13 @@
+- Compare top-level container:
+	+ AWT: Frame, Window, Dialog
+	+ Swing: JFrame, JWindow, JDialog, JOptionPane
+- Compare the class name of components in:
+	+ AWT: Button, Canvas, Checkbox, Choice, Label, 
+	List, Scrollbar, TextArea, and TextField.
+	+ Swing: JButton, ..., JCheckbox, JCombobox, JLabel,
+	JList, JScrollbar, JTextArea and JTextField.
+
+- Compare event handling between AWT and Swing: 
+	Swing use the module of event handling of AWT. Therefore, there aren't any differences
+between AWT and Swing in event handling. However, in Swing, it provides another method in handling event.
+It is bind method, this make a component be dependent on other components.
