@@ -7,7 +7,7 @@ import hust.soict.dsai.aims.comparator.MediaComparatorByCostTitle;
 import hust.soict.dsai.aims.comparator.MediaComparatorByTitleCost;
 
 
-public class Media implements Comparable<Media>{
+public abstract class Media implements Comparable<Media>{
 	protected int id;
 	protected String title;
 	protected String category;
