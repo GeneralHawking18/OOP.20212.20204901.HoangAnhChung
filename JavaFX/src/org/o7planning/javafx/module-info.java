@@ -1,0 +1,7 @@
+//package org.o7planning.javafx;
+/*module HelloJavaFX {
+	requires javafx.controls;
+	requires javafx.fxml;
+	
+	opens application to javafx.graphics, javafx.fxml;
+}*/
