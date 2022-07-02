@@ -18,9 +18,6 @@
          </BorderPane.margin>
       </VBox>
    </top>
-   <center>
-      <Pane onMouseDragged="#drawingAreaMouseDragged" prefHeight="459.0" prefWidth="512.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
-   </center>
    <left>
       <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" BorderPane.alignment="CENTER">
          <font>
@@ -28,4 +25,7 @@
          </font>
       </Button>
    </left>
+   <center>
+      <Pane onMouseDragged="#drawingAreaMouseDragged" prefHeight="459.0" prefWidth="512.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
