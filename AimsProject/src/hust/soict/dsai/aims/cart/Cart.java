@@ -2,16 +2,20 @@ package hust.soict.dsai.aims.cart;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.List;
 
 import hust.soict.dsai.aims.media.Media;
-import hust.soict.dsai.aims.utils.DVDUtils; 
+import hust.soict.dsai.aims.utils.DVDUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList; 
 
 public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
-	private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
+	//private ObservableList<Media> itemsOrdered = new ObservableList<Media>();
+	private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
+	///private ArrayList
 	
-	public ArrayList<Media> getItemsOrdered() {
+	public ObservableList<Media> getItemsOrdered() {
 		return itemsOrdered;
 	}
 	
@@ -26,7 +30,7 @@ public class Cart {
 	
 
 
-	public void setItemsOrdered(ArrayList<Media> itemsOrdered) {
+	public void setItemsOrdered(ObservableList<Media> itemsOrdered) {
 		this.itemsOrdered = itemsOrdered;
 	}
 
@@ -70,7 +74,10 @@ public class Cart {
 	
 	public void printByCostTitleOrder() {
 		@SuppressWarnings("unchecked")
-		ArrayList<Media> temp = (ArrayList<Media>) itemsOrdered.clone();
+		//ObservableList<Media> temp = (ObservableList<Media>) itemsOrdered.clone();
+		ObservableList<Media> temp =  FXCollections.observableArrayList();
+		Collections.copy(temp, itemsOrdered);
+		
 		Collections.sort(temp, DVDUtils.costTitleComparator);
 		for (Media media: temp) {
 			System.out.println(media);
@@ -79,7 +86,9 @@ public class Cart {
 	
 	public void printByTitleCostOrder() {
 		@SuppressWarnings("unchecked")
-		ArrayList<Media> temp = (ArrayList<Media>) itemsOrdered.clone();
+		ObservableList<Media> temp =  FXCollections.observableArrayList();
+		Collections.copy(temp, itemsOrdered);
+		
 		Collections.sort(temp, DVDUtils.titleCostComparator);
 		for (Media media: temp) {
 			System.out.println(media);
@@ -97,8 +106,9 @@ public class Cart {
 		
  	}
 	
-	public ArrayList<Media> searchByTitle(String title) {
-		ArrayList<Media> foundItems = new ArrayList<Media>(); //DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+	public ObservableList<Media> searchByTitle(String title) {
+		ObservableList<Media> foundItems =  FXCollections.observableArrayList();//DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+		//List<Media> foundItems = new ArrayList<Media>();
 		
 		for (Media item: itemsOrdered) {
 			if (item.isMatch(title)) {
