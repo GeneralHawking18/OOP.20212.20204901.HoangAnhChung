@@ -37,11 +37,12 @@ public class Cart {
 		return itemsOrdered;
 	}
 
-	public void addMedia(Media media, int amount) {
+	public void addMedia(Media media, int amount) throws LimitExceededException {
 		for (int i = 0; i < amount; i++) {
 			if (itemsOrdered.size() + 1 > MAX_NUMBERS_ORDERED) {
-				System.out.println("The cart is already full, some of items are not added into cart.");
-				return;
+				throw new LimitExceededException("ERROR: The number of media has reached the limit");
+				/*System.out.println("The cart is already full, some of items are not added into cart.");
+				return;*/
 			} else {
 				itemsOrdered.add(media);
 			}
@@ -50,11 +51,12 @@ public class Cart {
 	}
 	
 	
-	public void addMedia(Media... args) {
+	public void addMedia(Media... args) throws LimitExceededException {
 		for (Media media: args) {
 			if (itemsOrdered.size() > MAX_NUMBERS_ORDERED - 1) {
-				System.out.println("The cart is already full, some of items are not added into cart.");
-				return;
+				throw new LimitExceededException("ERROR: The number of media has reached the limit");
+				/*System.out.println("The cart is already full, some of items are not added into cart.");
+				return;*/
 			} else {
 				itemsOrdered.add(media);
 			}

@@ -55,16 +55,7 @@ public class MediaStore extends JPanel {
 		this.add(Box.createVerticalGlue());
 		this.add(container);
 		
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-	}
-	/*public JLabel playMedia(Playable media) {
-		JLabel label = new JLabel(processLabel(media.play()));
-		return label;
-	} */
-	public String preprocessLabel(String text) {
-		text = "<html>" + text + "</html>";
-		return text.replace("\n", "<br>");
+		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));	
 	}
 	
 }
