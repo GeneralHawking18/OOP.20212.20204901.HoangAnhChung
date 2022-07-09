@@ -5,9 +5,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 
 public class PainterController {
@@ -41,12 +43,24 @@ public class PainterController {
 
     @FXML
     void drawingAreaMouseDragged(MouseEvent event) {
+    	Rectangle rec = new Rectangle();
+    	rec.heightProperty().bind(drawingAreaPane.heightProperty());  
+    	rec.widthProperty().bind(drawingAreaPane.widthProperty()); 
+    	
+    	drawingAreaPane.setClip(rec);
+    	
     	Circle newCircle = new Circle(event.getX(), event.getY(), 4, Color.BLACK);
     	drawingAreaPane.getChildren().add(newCircle);
+    	
     }
     
     @FXML
     void erasingAreaMouseDragged(MouseEvent event) {
+    	Rectangle rec = new Rectangle();
+    	rec.heightProperty().bind(drawingAreaPane.heightProperty());  
+    	rec.widthProperty().bind(drawingAreaPane.widthProperty()); 
+    	
+    	drawingAreaPane.setClip(rec);
     	Circle newCircle = new Circle(event.getX(), event.getY(), 4, Color.WHITE);
     	drawingAreaPane.getChildren().add(newCircle);
     }
