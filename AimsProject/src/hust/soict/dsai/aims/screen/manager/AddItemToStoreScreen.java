@@ -119,8 +119,7 @@ public abstract class AddItemToStoreScreen extends StoreManagerScreen {
 	                "Successfully added!",
 	                "Notification",
 	                JOptionPane.INFORMATION_MESSAGE);
-	       
-	        
+	
 		}
 	}
 	public void setMedia(Media media) {

@@ -14,7 +14,7 @@
 
 <VBox alignment="CENTER" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" prefHeight="100.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0">
          <children>
             <Label text="AIMS" textFill="#004cff">
                <font>
@@ -31,6 +31,9 @@
                </HBox.margin>
             </Button>
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </HBox>
       <ScrollPane prefHeight="760.0" prefWidth="1024.0">
          <content>

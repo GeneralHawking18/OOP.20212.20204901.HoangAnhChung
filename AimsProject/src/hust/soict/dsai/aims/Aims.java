@@ -1,14 +1,22 @@
 package hust.soict.dsai.aims;
 import hust.soict.dsai.MemoryDaemon.MemoryDaemon;
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Book;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
 import hust.soict.dsai.aims.playable.Playable;
 import hust.soict.dsai.aims.store.Store;
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.naming.LimitExceededException;
+import javax.swing.JOptionPane;
 
 public class Aims {
 	private static Store store = new Store();
@@ -16,48 +24,62 @@ public class Aims {
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		Cart anOrder = new Cart();
-		
-		DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", 
-													"Animation", 
-													"Roger Allers", 
-													87, 
-													19.95f);
-		anOrder.addMedia(dvd1);
-		
-		Book dvd2 = new Book("Star Wars", 
-													"Science Fiction",
-													87);
-		anOrder.addMedia(dvd2);
-		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
-													"Animation", 
-													18.99f);
-		anOrder.addMedia(dvd3);
-		anOrder.addMedia(dvd1);
-		DigitalVideoDisc[] temp = {dvd1, dvd1};
-		anOrder.addMedia(temp);
-		anOrder.addMedia(dvd1, dvd2);
-		anOrder.addMedia(dvd1, 2);
-		//anOrder.removeDigitalVideoDisc(dvd1);
-		//anOrder.removeDigitalVideoDisc(dvd2);
-		//anOrder.removeDigitalVideoDisc(dvd3);
-		
-		cart = anOrder;
-		//cart.print();
-		
-		System.out.printf("Total cost is: \n%f\n", anOrder.totalCost());
-		store.addMedia(dvd1);
-		store.addMedia(dvd2);
-		store.addMedia(dvd3);
+		try {
+			Cart anOrder = new Cart();
+			
+			DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", 
+														"Animation", 
+														"Roger Allers", 
+														87, 
+														19.95f);
+			anOrder.addMedia(dvd1);
+			
+			Book dvd2 = new Book("Star Wars", 
+														"Science Fiction",
+														87);
+			anOrder.addMedia(dvd2);
+			DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
+														"Animation", 
+														18.99f);
+			anOrder.addMedia(dvd3);
+			anOrder.addMedia(dvd1);
+			DigitalVideoDisc[] temp = {dvd1, dvd1};
+			anOrder.addMedia(temp);
+			anOrder.addMedia(dvd1, dvd2);
+			anOrder.addMedia(dvd1, 2);
+			//anOrder.removeDigitalVideoDisc(dvd1);
+			//anOrder.removeDigitalVideoDisc(dvd2);
+			//anOrder.removeDigitalVideoDisc(dvd3);
+			
+			cart = anOrder;
+			//cart.print();
+			
+			System.out.printf("Total cost is: \n%f\n", anOrder.totalCost());
+			store.addMedia(dvd1);
+			store.addMedia(dvd2);
+			store.addMedia(dvd3);
+		} catch (LimitExceededException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Exceeded items" , JOptionPane.ERROR_MESSAGE);
+			/*Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Exceeded items");
+			alert.setHeaderText(e.toString());
+			alert.setHeaderText(e.getMessage());*/
+			
+		}
 		MemoryDaemon memDae = new MemoryDaemon();
 		Thread thread = new Thread(memDae);
 		thread.setDaemon(true);
 		thread.start();
-		
 		showMenu();
+		
+	}
 	
-		
-		
+	public static void showErrorPopup(Exception e, String title) {
+		e.printStackTrace();
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Title");
+		alert.setHeaderText(e.toString());
+		alert.setHeaderText(e.getMessage());
 	}
 	
 	public static void showMenu() {
@@ -167,7 +189,7 @@ public class Aims {
 		}
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
-		System.out.println("1. See a DVD’s details");
+		System.out.println("1. See a DVDï¿½s details");
 		System.out.println("2. Add a DVD to cart");
 		System.out.println("3. See current cart");
 		System.out.println("4. Play a DVD or CD item");
@@ -194,11 +216,17 @@ public class Aims {
 				title = sc.nextLine();
 				int qtyOrderedBackup = cart.getItemsOrdered().size();
 				
-				for (int i = 0; i < store.getItemsInStore().size(); i++) {
-					if (title.compareToIgnoreCase(store.getItemsInStore().get(i).getTitle()) == 0) {
-						cart.addMedia(store.getItemsInStore().get(i));
+				try {
+					for (int i = 0; i < store.getItemsInStore().size(); i++) {
+						if (title.compareToIgnoreCase(store.getItemsInStore().get(i).getTitle()) == 0) {
+							cart.addMedia(store.getItemsInStore().get(i));
+						}
 					}
+				} catch(LimitExceededException e){
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Exceeded items" , JOptionPane.ERROR_MESSAGE);
+					
 				}
+				
 				if (qtyOrderedBackup == cart.getItemsOrdered().size()) {
 					System.out.println("No matched title is found! Nothing added");
 				}
@@ -218,12 +246,24 @@ public class Aims {
 				Entry = sc.nextInt();
 				Media ChosenItem = store.getItemsInStore().get(Entry - 1);
 				if (ChosenItem instanceof Playable) {
-					((Playable)ChosenItem).play();
+					try { 
+						((Playable)ChosenItem).play();
+					} catch(PlayerException e) {
+						String typeMedia;
+						if (ChosenItem instanceof DigitalVideoDisc) {
+							typeMedia = "DVD";
+						} else {
+							typeMedia = "CD";
+						}
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Illegal " + typeMedia + " length" , JOptionPane.ERROR_MESSAGE);
+						
+					}
 				}
 				pressAnyKeyToContinue(methodReference);
 				break;
 		}
 	}
+	
 	public static void cartMenu() {
 		Thread cartMenuRefer = new Thread(Aims::cartMenu);
 		System.out.println("Options: ");
