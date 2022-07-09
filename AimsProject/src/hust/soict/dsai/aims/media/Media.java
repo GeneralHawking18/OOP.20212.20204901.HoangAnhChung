@@ -7,7 +7,7 @@ import hust.soict.dsai.aims.comparator.MediaComparatorByCostTitle;
 import hust.soict.dsai.aims.comparator.MediaComparatorByTitleCost;
 
 
-public abstract class Media implements Comparable<Media>{
+public abstract class Media implements Comparable<Object>{
 	protected int id;
 	protected String title;
 	protected String category;
@@ -66,18 +66,26 @@ public abstract class Media implements Comparable<Media>{
 	}
 	
 	@Override
-	public int compareTo(Media media) {
-		int titleVal = this.title.compareToIgnoreCase(media.getTitle());
-		int categoryVal = this.category.compareToIgnoreCase(media.getCategory());
+	public int compareTo(Object o){
+		try {
+			Media media = (Media) o;
+			int titleVal = this.title.compareToIgnoreCase(media.getTitle());
+			float costVal = this.getCost() - media.getCost();
+			
+			if (!(titleVal == 0)) {
+				titleVal = titleVal / Math.abs(titleVal);
+				return titleVal;
+			} 
 		
-		if (!(titleVal == 0)) {
-			titleVal = titleVal / Math.abs(titleVal);
-			return titleVal;
-		} 
-		
-		if (!(categoryVal == 0)) {
-			categoryVal =  categoryVal / Math.abs(categoryVal);
-			return categoryVal;
+			if (!(costVal == 0)) {
+				costVal =  costVal / Math.abs(costVal);
+				return (int) costVal;
+			}
+			
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (ClassCastException e) {
+			e.printStackTrace();
 		}
 		
 		return 0;
@@ -87,30 +95,24 @@ public abstract class Media implements Comparable<Media>{
 	
 	
 	public boolean isMatch(String title) {
-		String[] other_words = title.split(" ", 0);
-		String[] these_words = this.title.split(" ", 0);
-		
-		for (String word1: these_words) {
-			for (String word2: other_words) {
-				if (word1.compareToIgnoreCase(word2) == 0) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return this.getTitle().toLowerCase().contains(title.toLowerCase());
 	}
 	
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Media)) {
-			return false;
-		}
-		else {
-			if (((Media) o).getId() == this.getId()) {
+		
+		try {
+			if (((Media) o).getTitle() == this.getTitle() && ((Media) o).getCost() == this.getCost()) {
 				return true;
 			}
-			else return false;
+		} catch (NullPointerException e) {
+			return false;
+		} catch (ClassCastException e) {
+			return false;
 		}
+		return false;
+		
+	
 	}
 }

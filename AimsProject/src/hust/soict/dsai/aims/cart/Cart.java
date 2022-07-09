@@ -2,39 +2,47 @@ package hust.soict.dsai.aims.cart;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+import javax.naming.LimitExceededException;
 
 import hust.soict.dsai.aims.media.Media;
-import hust.soict.dsai.aims.utils.DVDUtils; 
+import hust.soict.dsai.aims.utils.DVDUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList; 
 
 public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
-	private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
-	
-	public ArrayList<Media> getItemsOrdered() {
-		return itemsOrdered;
-	}
-	
-	public void addMedia(Media media) {
+	//private ObservableList<Media> itemsOrdered = new ObservableList<Media>();
+	private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
+	///private ArrayList
+
+	public void addMedia(Media media) throws LimitExceededException {
 		if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {
 			itemsOrdered.add(media);
-			System.out.println("A new item has been successfully added into Cart!");
+			//System.out.println("A new item has been successfully added into Cart!");
 		} else {
-			System.out.println("The cart has been already full.");
+			//System.out.println("The cart has been already full.");
+			throw new LimitExceededException("ERROR: The number of media has reached the limit");
 		}
 	}
 	
 
 
-	public void setItemsOrdered(ArrayList<Media> itemsOrdered) {
+	public void setItemsOrdered(ObservableList<Media> itemsOrdered) {
 		this.itemsOrdered = itemsOrdered;
 	}
+	
+	public ObservableList<Media> getItemsOrdered() {
+		return itemsOrdered;
+	}
 
-	public void addMedia(Media media, int amount) {
+	public void addMedia(Media media, int amount) throws LimitExceededException {
 		for (int i = 0; i < amount; i++) {
 			if (itemsOrdered.size() + 1 > MAX_NUMBERS_ORDERED) {
-				System.out.println("The cart is already full, some of items are not added into cart.");
-				return;
+				throw new LimitExceededException("ERROR: The number of media has reached the limit");
+				/*System.out.println("The cart is already full, some of items are not added into cart.");
+				return;*/
 			} else {
 				itemsOrdered.add(media);
 			}
@@ -43,11 +51,12 @@ public class Cart {
 	}
 	
 	
-	public void addMedia(Media... args) {
+	public void addMedia(Media... args) throws LimitExceededException {
 		for (Media media: args) {
 			if (itemsOrdered.size() > MAX_NUMBERS_ORDERED - 1) {
-				System.out.println("The cart is already full, some of items are not added into cart.");
-				return;
+				throw new LimitExceededException("ERROR: The number of media has reached the limit");
+				/*System.out.println("The cart is already full, some of items are not added into cart.");
+				return;*/
 			} else {
 				itemsOrdered.add(media);
 			}
@@ -70,7 +79,10 @@ public class Cart {
 	
 	public void printByCostTitleOrder() {
 		@SuppressWarnings("unchecked")
-		ArrayList<Media> temp = (ArrayList<Media>) itemsOrdered.clone();
+		//ObservableList<Media> temp = (ObservableList<Media>) itemsOrdered.clone();
+		ObservableList<Media> temp =  FXCollections.observableArrayList();
+		Collections.copy(temp, itemsOrdered);
+		
 		Collections.sort(temp, DVDUtils.costTitleComparator);
 		for (Media media: temp) {
 			System.out.println(media);
@@ -79,7 +91,9 @@ public class Cart {
 	
 	public void printByTitleCostOrder() {
 		@SuppressWarnings("unchecked")
-		ArrayList<Media> temp = (ArrayList<Media>) itemsOrdered.clone();
+		ObservableList<Media> temp =  FXCollections.observableArrayList();
+		Collections.copy(temp, itemsOrdered);
+		
 		Collections.sort(temp, DVDUtils.titleCostComparator);
 		for (Media media: temp) {
 			System.out.println(media);
@@ -97,8 +111,9 @@ public class Cart {
 		
  	}
 	
-	public ArrayList<Media> searchByTitle(String title) {
-		ArrayList<Media> foundItems = new ArrayList<Media>(); //DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+	public ObservableList<Media> searchByTitle(String title) {
+		ObservableList<Media> foundItems =  FXCollections.observableArrayList();//DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+		//List<Media> foundItems = new ArrayList<Media>();
 		
 		for (Media item: itemsOrdered) {
 			if (item.isMatch(title)) {

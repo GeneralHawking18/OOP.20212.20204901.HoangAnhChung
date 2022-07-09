@@ -24,7 +24,7 @@ public class TestMediaToString {
 
 		CompactDisc cd = new CompactDisc("Aladin", 
 										"Animation", 
-										18.99f);
+										"", 18.99f);
 		mediae.add(cd);
 		mediae.add(dvd);
 		mediae.add(book);

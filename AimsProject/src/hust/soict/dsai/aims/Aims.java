@@ -1,14 +1,23 @@
 package hust.soict.dsai.aims;
 import hust.soict.dsai.MemoryDaemon.MemoryDaemon;
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Book;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.disc.DigitalVideoDisc;
 import hust.soict.dsai.aims.playable.Playable;
 import hust.soict.dsai.aims.store.Store;
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.naming.LimitExceededException;
+import javax.swing.JOptionPane;
 
 public class Aims {
 	private static Store store = new Store();
@@ -16,51 +25,66 @@ public class Aims {
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		Cart anOrder = new Cart();
-		
-		DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", 
-													"Animation", 
-													"Roger Allers", 
-													87, 
-													19.95f);
-		anOrder.addMedia(dvd1);
-		
-		Book dvd2 = new Book("Star Wars", 
-													"Science Fiction",
-													87);
-		anOrder.addMedia(dvd2);
-		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
-													"Animation", 
-													18.99f);
-		anOrder.addMedia(dvd3);
-		anOrder.addMedia(dvd1);
-		DigitalVideoDisc[] temp = {dvd1, dvd1};
-		anOrder.addMedia(temp);
-		anOrder.addMedia(dvd1, dvd2);
-		anOrder.addMedia(dvd1, 2);
-		//anOrder.removeDigitalVideoDisc(dvd1);
-		//anOrder.removeDigitalVideoDisc(dvd2);
-		//anOrder.removeDigitalVideoDisc(dvd3);
-		
-		cart = anOrder;
-		//cart.print();
-		
-		System.out.printf("Total cost is: \n%f\n", anOrder.totalCost());
-		store.addMedia(dvd1);
-		store.addMedia(dvd2);
-		store.addMedia(dvd3);
+		try {
+			Cart anOrder = new Cart();
+			
+			DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", 
+														"Animation", 
+														"Roger Allers", 
+														87, 
+														19.95f);
+			anOrder.addMedia(dvd1);
+			
+			Book dvd2 = new Book("Star Wars", 
+														"Science Fiction",
+														87);
+			anOrder.addMedia(dvd2);
+			DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", 
+														"Animation", 
+														18.99f);
+			anOrder.addMedia(dvd3);
+			anOrder.addMedia(dvd1);
+			DigitalVideoDisc[] temp = {dvd1, dvd1};
+			anOrder.addMedia(temp);
+			anOrder.addMedia(dvd1, dvd2);
+			
+			//anOrder.removeDigitalVideoDisc(dvd1);
+			//anOrder.removeDigitalVideoDisc(dvd2);
+			//anOrder.removeDigitalVideoDisc(dvd3);
+			
+			cart = anOrder;
+			//cart.print();
+			
+			System.out.printf("Total cost is: \n%f\n", anOrder.totalCost());
+			store.addMedia(dvd1);
+			store.addMedia(dvd2);
+			store.addMedia(dvd3);
+			
+			showMenu();
+			
+		} catch (LimitExceededException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Exceeded items" , JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error!" , JOptionPane.ERROR_MESSAGE);
+		}
+		;
 		MemoryDaemon memDae = new MemoryDaemon();
 		Thread thread = new Thread(memDae);
 		thread.setDaemon(true);
 		thread.start();
 		
-		showMenu();
-	
-		
 		
 	}
 	
-	public static void showMenu() {
+	public static void showErrorPopup(Exception e, String title) {
+		e.printStackTrace();
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Title");
+		alert.setHeaderText(e.toString());
+		alert.setHeaderText(e.getMessage());
+	}
+	
+	public static void showMenu() throws LimitExceededException, IOException {
 		System.out.println("AIMS: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. View store");
@@ -87,7 +111,7 @@ public class Aims {
 		}		
 	}	
 		
-	public static void updateStoreMenu() {
+	public static void updateStoreMenu() throws IOException, LimitExceededException {
 		System.out.println("One of three store-update options: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. Add a new dvd into store");
@@ -157,17 +181,19 @@ public class Aims {
 				}
 				break;
 		}
-		pressAnyKeyToContinue(new Thread(Aims::updateStoreMenu));
+		pressAnyKeyToContinue();
+		updateStoreMenu();
+		//pressAnyKeyToContinue(new Thread(Aims::updateStoreMenu));
 	}
-	public static void storeMenu() {
-		Thread methodReference = new Thread(Aims::storeMenu);
+	public static void storeMenu() throws LimitExceededException, IOException{
+		//Thread methodReference = new Thread(Aims::storeMenu);
 		for (int i = 0; i < store.getItemsInStore().size(); i++) {
 			System.out.printf("%d. ", (i + 1));
 			System.out.println(store.getItemsInStore().get(i));
 		}
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
-		System.out.println("1. See a DVD’s details");
+		System.out.println("1. See a DVD's details");
 		System.out.println("2. Add a DVD to cart");
 		System.out.println("3. See current cart");
 		System.out.println("4. Play a DVD or CD item");
@@ -187,6 +213,8 @@ public class Aims {
 				sc = new Scanner(System.in);
 				title = sc.nextLine();
 				cart.searchByTitle(title);
+				pressAnyKeyToContinue();
+				cartMenu();
 				break;
 			case 2:
 				System.out.print("Enter your desired title to add into your cart: ");
@@ -194,16 +222,24 @@ public class Aims {
 				title = sc.nextLine();
 				int qtyOrderedBackup = cart.getItemsOrdered().size();
 				
-				for (int i = 0; i < store.getItemsInStore().size(); i++) {
-					if (title.compareToIgnoreCase(store.getItemsInStore().get(i).getTitle()) == 0) {
-						cart.addMedia(store.getItemsInStore().get(i));
+				try {
+					for (int i = 0; i < store.getItemsInStore().size(); i++) {
+						if (title.compareToIgnoreCase(store.getItemsInStore().get(i).getTitle()) == 0) {
+							cart.addMedia(store.getItemsInStore().get(i));
+						}
 					}
+				} catch(LimitExceededException e){
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Exceeded items" , JOptionPane.ERROR_MESSAGE);
+					
 				}
+				
 				if (qtyOrderedBackup == cart.getItemsOrdered().size()) {
 					System.out.println("No matched title is found! Nothing added");
 				}
 				System.out.println("The number of items ordered: " + cart.getItemsOrdered().size());
-				pressAnyKeyToContinue(methodReference);
+				//pressAnyKeyToContinue(methodReference);
+				pressAnyKeyToContinue();
+				storeMenu();
 				break;
 				
 				
@@ -217,15 +253,31 @@ public class Aims {
 				sc = new Scanner(System.in);
 				Entry = sc.nextInt();
 				Media ChosenItem = store.getItemsInStore().get(Entry - 1);
+				
 				if (ChosenItem instanceof Playable) {
-					((Playable)ChosenItem).play();
+					try { 
+						((Playable)ChosenItem).play();
+					} catch(PlayerException e) {
+						String typeMedia;
+						if (ChosenItem instanceof DigitalVideoDisc) {
+							typeMedia = "DVD";
+						} else {
+							typeMedia = "CD";
+						}
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Illegal " + typeMedia + " length" , JOptionPane.ERROR_MESSAGE);
+						
+					}
 				}
-				pressAnyKeyToContinue(methodReference);
+				//	throw new PlayerException(typeMedia);}
+				//pressAnyKeyToContinue(methodReference);
+				pressAnyKeyToContinue();
+				storeMenu();
 				break;
 		}
 	}
-	public static void cartMenu() {
-		Thread cartMenuRefer = new Thread(Aims::cartMenu);
+	
+	public static void cartMenu() throws IOException, LimitExceededException {
+		//Thread cartMenuRefer = new Thread(Aims::cartMenu);
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. Filter DVDs in cart");
@@ -255,14 +307,20 @@ public class Aims {
 					System.out.println("Enter the id to filter: ");
 					int id = sc.nextInt();
 					System.out.println(cart.searchById(id));
-					pressAnyKeyToContinue(cartMenuRefer);
+					//pressAnyKeyToContinue(cartMenuRefer);
+					pressAnyKeyToContinue();
+					cartMenu();
 					break;
 				case 2: 
 					System.out.println("Enter the title to filter: ");
 					sc = new Scanner(System.in);
 					String title = sc.nextLine();
 					cart.searchByTitle(title);
-					pressAnyKeyToContinue(cartMenuRefer);
+					
+					System.out.println("Press any key to continue...");
+					System.in.read();
+					cartMenu();
+					//pressAnyKeyToContinue(cartMenuRefer);
 					break;
 				case 0: 
 					cartMenu();
@@ -286,7 +344,9 @@ public class Aims {
 					cart.printByTitleCostOrder();
 					break;
 			}
-			pressAnyKeyToContinue(cartMenuRefer);
+			pressAnyKeyToContinue();
+			cartMenu();
+			//pressAnyKeyToContinue(cartMenuRefer);
 			break;
 			
 		case 3:
@@ -315,7 +375,10 @@ public class Aims {
 			}
 			
 			System.out.println("The number of remaining items ordered is: " + cart.getItemsOrdered().size());
-			pressAnyKeyToContinue(cartMenuRefer);
+			//pressAnyKeyToContinue(cartMenuRefer);
+			pressAnyKeyToContinue();
+			cartMenu();
+			
 			break;
 		case 4:
 			System.out.println("Your order has been created!");
@@ -329,22 +392,16 @@ public class Aims {
 			break;
 		}
 	}
-	private static void pressAnyKeyToContinue(Thread method){ 
+	private static void pressAnyKeyToContinue() throws IOException { 
 		System.out.println("Press any key to continue...");
-		try {
-			System.in.read();
-			method.start();
-		}
-		catch(Exception e) {
-		}
+		System.in.read();
+		
 	}
-	private static void pressAnyKeyToMain(){ 
+	private static void pressAnyKeyToMain() throws IOException, LimitExceededException { 
 		System.out.println("Press any key to main menu...");
-		try {
-			System.in.read();
-			showMenu();
-		}
-		catch(Exception e) {
-		}
+		System.in.read();
+		showMenu();
 	}
+	
+
 }

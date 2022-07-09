@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.playable.Playable;
 
@@ -37,19 +37,12 @@ public class MediaStore extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					
-					JDialog playDialog = new JDialog();
-					playDialog.setTitle("Playing...");
-					
-					JLabel playMedia = playMedia((Playable) media);
-					
-					//playFrame.add(test);
-					playDialog.add(playMedia);
-					playDialog.setSize(600, 200);
-					playDialog.setLocationRelativeTo(null);
-					playDialog.setVisible(true);
-					
+					try {
+						((Playable)  media).play();
+					} catch (PlayerException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				
 			});
@@ -62,16 +55,7 @@ public class MediaStore extends JPanel {
 		this.add(Box.createVerticalGlue());
 		this.add(container);
 		
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-	}
-	public JLabel playMedia(Playable media) {
-		JLabel label = new JLabel(processLabel(media.play()));
-		return label;
-	}
-	public String processLabel(String text) {
-		text = "<html>" + text + "</html>";
-		return text.replace("\n", "<br>");
+		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));	
 	}
 	
 }
